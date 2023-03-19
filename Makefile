@@ -1,6 +1,14 @@
 install:
 	pip install --upgrade pip &&\
-		pip install -r requirements.txt
+		pip install -r requirements.txt &&\
+			brew install portaudio &&\
+				pip install pyaudio &&\
+					brew install espeak &&\
+						brew install flac 
+
+
+
+
 
 test:
 	python -m pytest -vv --cov=main --cov=mylib test_*.py

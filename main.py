@@ -4,7 +4,6 @@ from langdetect import detect
 from googletrans import Translator
 
 
-
 # create recognizer object, a translator object and a text to speech object
 r = sr.Recognizer()
 translator = Translator(service_urls=['translate.google.com'])
@@ -27,17 +26,20 @@ while True:
             translation = translator.translate(text, dest='en')
             # speak the translated text
             tts.say(translation.text)
-            tts.runAndwait()
+            tts.runAndWait()
+
         # translate speech to Chinese if detected language is English
         elif input_language == 'en':
             translation = translator.translate(text, dest='zh-CN')
             print(f"Translated to Chinese: {translation.text}")
             # speak the translated text
             tts.say(translation.text)
-            tts.runAndwait()
+            tts.runAndWait()
+
         else:
             print("Unsupport language")
     except sr.UnknownValueError:
         print("Google Speech Recognition could not understand audio")
     except sr.RequestError as e:
-        print(f"Could not request results from Google Speech Recognition service; {e}")
+        print(
+            f"Could not request results from Google Speech Recognition service; {e}")
