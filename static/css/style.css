@@ -1,149 +1,181 @@
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+/* General styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  html {
+    background: #100f0f;
+  }
+  
+  body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    background: #100f0f;
+    color: white;
+  }
+  
+  .container {
+    max-width: 100%;
+    margin: 0 auto;
+    background: #100f0f;
+    padding: 30px;
+    overflow: auto;
+  }
+  
+  header {
+    text-align: center;
     margin-bottom: 30px;
-}
-
-h1 {
-    font-size: 36px;
-    font-weight: 700;
-    margin: 0;
-    line-height: 1.2;
-    color: #333;
-}
-
-.language-selection {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.language-selection p {
-    margin: 0;
-    margin-right: 10px;
-    font-size: 18px;
-    color: #333;
-}
-
-#language-select {
-    font-size: 16px;
-    padding: 5px 10px;
-    border-radius: 5px;
-    border: 1px solid #333;
-    background-color: #fff;
-    color: #333;
-}
-
-.speech-recognition {
+  }
+  
+  header h1 {
+    font-size: 2rem;
+  }
+  
+  header .language-selection {
     display: flex;
     justify-content: center;
     align-items: center;
+    gap: 20px;
+  }
+  
+  select {
+    font-size: 1rem;
+  }
+  
+  .speech-recognition {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
     margin-bottom: 30px;
-}
+  }
 
-#start-recognition-btn,
-#stop-recognition-btn {
+  
+  .start-recording-btn {
+    font-size: 1.2rem;
+    background-color: rgba(90, 214, 90, 0.701);
+    padding: 10px 15px;
+    border : none;
     display: inline-flex;
-    justify-content: center;
     align-items: center;
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    margin-right: 20px;
-    font-size: 28px;
-    background-color: #f90a0a;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-}
-
-#stop-recognition-btn {
-    background-color: #1534ff;
-}
-
-.conversion-box {
+    justify-content: center;
+  }
+  
+  .stop-recording-btn {
+    font-size: 1.2rem;
+    background-color: rgba(240, 70, 70, 0.621);
+    padding: 10px 15px;
+    border : none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .conversion-box {
     display: flex;
-    justify-content: space-between;
+    gap: 30px;
     margin-bottom: 30px;
-}
-
-.conversion-box .original-text,
-.conversion-box .translated-text {
-    width: 45%;
-}
-
-.conversion-box .original-text p,
-.conversion-box .translated-text p {
-    margin: 0;
-    font-size: 20px;
-    font-weight: 700;
-    color: #333;
+    box-shadow: 0 4px 6px rgba(67, 62, 62, 0.1); 
+  }
+  
+  .conversion-box div {
+    flex: 1;
+  }
+  
+  .conversion-box h2 {
+    font-size: 1.2rem;
     margin-bottom: 10px;
-}
+  }
+  
+  
+  .original-text,
+  .translated-text {
+    border: 1px solid #a7a4a4da;
+    padding: 15px;
+    height: 150px;
+    overflow-y: auto;
+  }
+  
+  .conversation-history {
+    margin-bottom: 30px;
+  }
+  
+  .conversation-history h2 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+  }
+  
+  .histories-container {
+    display: flex;
+    /* justify-content: space-between; */
+    gap: 0;
+  }
+  
+  .history-box {
+    flex: 1;
+    background-color: #100f0f;
+    padding: 1rem;
+    /* border-radius: 5px; */
+    box-shadow: 0 4px 6px rgba(67, 62, 62, 0.1);
+  }
+  
+  .history-box h2 {
+    margin-top: 0;
+  }
 
-.conversion-box .original-text div,
-.conversion-box .translated-text div {
-    border: 1px solid #ccc;
+  .summary-item {
+    border: 1px solid rgb(247, 245, 245);
+    margin-bottom: 10px;
     padding: 10px;
-    font-size: 18px;
-    color: #333;
-    height: 200px;
+  }
+  
+  .original-summary:before {
+    content: "👽";
+    font-weight: bold;
+  }
+  
+  .translated-summary:before {
+    content: "👽";
+    font-weight: bold;
+  }
+  
+  .original-summary,
+  .translated-summary {
+    margin-top: 5px;
+  }
+  
+  .original-summary,
+  .translated-summary {
+    white-space: pre-wrap;
+  }
+  
+
+
+  #conversation-history {
+    border: 1px solid #333;
+    /* padding: 15px; */
+    min-height: 150px;
     overflow-y: auto;
-}
-
-.conversation-history {
-    margin-top: 50px;
-}
-
-.conversation-history h2 {
-    font-size: 24px;
-    font-weight: 700;
-    color: #333;
-    margin: 0 0 20px;
-}
-
-.conversation-history #conversation-history {
-    border: 1px solid #ccc;
-    padding: 20px;
-    font-size: 18px;
-    color: #333;
-    height: 300px;
-    overflow-y: auto;
-}
-
-#save-conversation-btn {
-    font-size: 18px;
-    padding: 10px 20px;
-    border-radius: 5px;
-    background-color: #333;
+    /* margin-bottom: 15px; */
+  }
+  
+  #save-conversation-btn,
+  #summarize-conversation-btn {
+    font-size: 1rem;
+    background: #333;
     color: #fff;
+    padding: 10px 15px;
     border: none;
     cursor: pointer;
-    margin-top: 20px;
-}
-
-@media screen and (max-width: 768px) {
-    .container {
-        max-width: 600px;
-        margin: 0 auto;
-        padding: 0 20px;
-    }
-
-    .speech-recognition {
-        flex-direction: column;
-        margin-bottom: 20px;
-    }
-
-    #start-recognition-btn i,
-    #stop-recognition-btn i {
-        margin-right: 5px;
-    }
-
-    #start-recognition-btn i:before {
-        content: "\f04b";
-    }
-
-    #stop-recognition-btn i:before {
-        content: "\f04d";
-    }
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+  }
+  
+  #summarize-conversation-btn {
+    background-color: #007bff;
+  }
+  

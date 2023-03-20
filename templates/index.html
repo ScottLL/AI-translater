@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>AI Translator</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-47DxScKj5L5OYDK0mzbGQDsc+NRr0mBYK0ayzLvqB3duaaEyMFDKmhheZPULnYJlD2+LrFTnNXKjufqgGwq3Ng==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
@@ -32,23 +32,41 @@
       </header>
       <main>
         <div class="speech-recognition">
-            <button id="start-recognition-btn" class="speech-recognition-btn"><i class="fas fa-play"></i></button>
-            <button id="stop-recognition-btn" class="speech-recognition-btn"><i class="fas fa-stop"></i></button>            
+            <button id="start-recognition-btn" class="speech-recognition-btn start-recording-btn"><i class="fas fa-play"></i> ▶️ </button>
+            <button id="stop-recognition-btn" class="speech-recognition-btn stop-recording-btn"><i class="fas fa-stop"></i> ⏹️ </button>
+                       
         </div>
         <div class="conversion-box">
-          <div class="original-text">
-            <p>Original Text:</p>
-            <div id="original-text"></div>
+            <div class="original-text">
+              <h2>Original Text</h2> <!-- Move the heading outside the box -->
+              <div id="original-text"></div>
+            </div>
+            <div class="translated-text">
+              <h2>Translated Text</h2> <!-- Move the heading outside the box -->
+              <div id="translated-text"></div>
+            </div>
           </div>
-          <div class="translated-text">
-            <p>Translated Text:</p>
-            <div id="translated-text"></div>
-          </div>
+          
+          
         </div>
-        <div class="conversation-history">
-          <h2>Conversation History:</h2>
-          <div id="conversation-history"></div>
-          <button id="save-conversation-btn">Save Conversation</button>
+        <div class="histories-container">
+          <div class="history-box">
+            <div class="conversation-history">
+              <h2>Conversation History:</h2>
+              <div id="conversation-history"></div>
+              <button id="save-conversation-btn">Save Conversation</button>
+              
+            </div>
+          </div>
+          <div class="history-box">
+            <div id="summary-history">
+                <h2>Summary History</h2>
+                <ul id="summary-list">
+                    <!-- The summarized results will be appended here as list items -->
+                </ul>
+            </div>
+            <button id="summarize-conversation-btn">Summarize Conversation</button>
+          </div>
         </div>
       </main>
     </div>

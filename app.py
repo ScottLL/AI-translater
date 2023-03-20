@@ -1,6 +1,11 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, escape
 import main
 import datetime
+from main import generate_summary
+from main import detect_language 
+import json
+
+
 
 app = Flask(__name__)
 conversation_history = []
@@ -31,6 +36,14 @@ def save_conversation():
             f.write("\n")
     conversation_history.clear()
     return jsonify({'filename': filename})
+
+@app.route('/summarize-conversation', methods=['POST'])
+def summarize_conversation():
+    conversation = json.loads(request.json['conversation'])
+    summary_original = main.generate_summary(conversation)
+    summary_translated = main.translate(summary_original, main.detect_language(summary_original), request.json['target_language'])
+    return jsonify({'summary_original': summary_original, 'summary_translated': summary_translated})
+
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port = 5001) # Change this line
