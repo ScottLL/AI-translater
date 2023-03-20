@@ -1,0 +1,10 @@
+Original Text:
+hello how are you doing
+Translated Text:
+你好你最近怎么样
+
+Original Text:
+ I'm doing all right how about you
+Translated Text:
+我正在做正确的事
+

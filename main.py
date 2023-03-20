@@ -1,45 +1,62 @@
-import speech_recognition as sr
-import pyttsx3
-from langdetect import detect
-from googletrans import Translator
+# from googletrans import Translator, LANGUAGES
 
+# from langdetect import detect
+# import datetime
 
-# create recognizer object, a translator object and a text to speech object
-r = sr.Recognizer()
-translator = Translator(service_urls=['translate.google.com'])
-tts = pyttsx3.init()
+# def translate(text: str, input_language: str, target_language: str) -> str:
+#     # Check if target language is supported by Google Translate
+#     # if target_language not in LANGUAGES.keys():
+#     #     return "Unsupported language"
 
-while True:
-    # use the default microphone as the audio source
-    with sr.Microphone() as source:
-        print("Say something ...")
-        # adjust the recognizer sensitivity to ambient noise and record audio
-        r.adjust_for_ambient_noise(source)
-        # listen for the first phrase and extract it into audio data
-        audio = r.listen(source)
-    try:
-        # recognize speech using Google Speech Recognition
-        text = r.recognize_google(audio)
-        input_language = detect(text)
-        # translate speech to English if detected language is not Chinese
-        if input_language == 'zh-CN':
-            translation = translator.translate(text, dest='en')
-            # speak the translated text
-            tts.say(translation.text)
-            tts.runAndWait()
+#     if input_language not in LANGUAGES.keys():
+#         input_language = detect(text)
 
-        # translate speech to Chinese if detected language is English
-        elif input_language == 'en':
-            translation = translator.translate(text, dest='zh-CN')
-            print(f"Translated to Chinese: {translation.text}")
-            # speak the translated text
-            tts.say(translation.text)
-            tts.runAndWait()
+#     if input_language == target_language:
+#         return text
 
-        else:
-            print("Unsupport language")
-    except sr.UnknownValueError:
-        print("Google Speech Recognition could not understand audio")
-    except sr.RequestError as e:
-        print(
-            f"Could not request results from Google Speech Recognition service; {e}")
+#     translator = Translator()
+#     translation = translator.translate(text, src=input_language, dest=target_language)
+
+#     if translation:
+#         return translation.text
+#     else:
+#         return "Translation failed"
+
+# def save_conversation(conversation_history):
+#     filename = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S") + ".txt"
+#     with open(filename, "w") as f:
+#         for original_text, translated_text in conversation_history:
+#             f.write("Original Text:\n" + original_text + "\n")
+#             f.write("Translated Text:\n" + translated_text + "\n")
+#             f.write("\n")
+from googletrans import Translator, LANGUAGES
+
+import datetime
+
+def detect_language(text: str):
+    translator = Translator()
+    detected_language = translator.detect(text)
+    return detected_language.lang
+
+def translate(text: str, input_language: str, target_language: str) -> str:
+    if input_language not in LANGUAGES.keys():
+        input_language = detect_language(text)
+
+    if input_language == target_language:
+        return text
+
+    translator = Translator()
+    translation = translator.translate(text, src=input_language, dest=target_language)
+
+    if translation:
+        return translation.text
+    else:
+        return "Translation failed"
+
+def save_conversation(conversation_history):
+    filename = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S") + ".txt"
+    with open(filename, "w") as f:
+        for original_text, translated_text in conversation_history:
+            f.write("Original Text:\n" + original_text + "\n")
+            f.write("Translated Text:\n" + translated_text + "\n")
+            f.write("\n")

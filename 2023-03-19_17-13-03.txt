@@ -1,0 +1,10 @@
+Original Text:
+hello
+Translated Text:
+你好
+
+Original Text:
+ how are you doing
+Translated Text:
+你好吗
+
