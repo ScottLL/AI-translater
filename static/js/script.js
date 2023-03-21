@@ -15,16 +15,20 @@ function translateText(text) {
   var input_language = document.getElementById("input-language-select").value;
   var target_language = document.getElementById("translate-language-select").value;
 
-  // Add line breaks after each bullet point in the original text
-  text = text.replace(/- /g, "\n- ");
+  // Get the API key input value
+  var apiKey = document.getElementById("apikey").value;
 
   fetch("/translate", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ text: text, input_language: input_language, target_language: target_language }),
-
+    body: JSON.stringify({
+      text: text,
+      input_language: input_language,
+      target_language: target_language,
+      api_key: apiKey, // Include the API key in the request body
+    }),
   })
     .then((response) => response.json())
     .then((response) => {
@@ -34,8 +38,6 @@ function translateText(text) {
 
       document.getElementById("translated-text").innerHTML = translatedText;
 
-      // Add line breaks after each bullet point in the original text
-      text = text.replace(/\n/g, "<br>");
       // Add line breaks after each bullet point in the translated text
       translatedText = translatedText.replace(/\n/g, "<br>");
 
@@ -112,23 +114,29 @@ function saveConversation() {
   }
 }
 
+
+
 function summarizeConversation() {
   var target_language = document.getElementById("translate-language-select").value;
+
+  // Get the API key input value
+  var apiKey = document.getElementById("apikey").value;
 
   fetch("/summarize-conversation", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ 
-      target_language: target_language, 
-      conversation: JSON.stringify(conversationHistory).replace(/- /g, "\n- ")
+    body: JSON.stringify({
+      target_language: target_language,
+      conversation: JSON.stringify(conversationHistory).replace(/- /g, "\n- "),
+      api_key: apiKey, // Include the API key in the request body
     }),
   })
     .then((response) => response.json())
     .then((response) => {
-      var summary_original = response.summary_original.replace(/\n/g, "<br>");
-      var summary_translated = response.summary_translated.replace(/\n/g, "<br>");
+      var summary_original = response.summary.original.replace(/\n/g, "<br>");
+      var summary_translated = response.summary.translated.replace(/\n/g, "<br>");
 
       // Display the summaries in the summary history
       const summaryHistory = document.getElementById("summary-history");
@@ -148,7 +156,6 @@ function summarizeConversation() {
       summaryHistory.appendChild(summaryItem);
     });
 }
-
 
 
 

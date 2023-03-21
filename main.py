@@ -1,20 +1,24 @@
 from googletrans import Translator, LANGUAGES
 import datetime
 import openai
-import os
+# import os
 from dotenv import load_dotenv
 
-load_dotenv()
+# load_dotenv()
 
 
-openai.api_key = os.getenv('OPENAI_API_KEY')
+# openai.api_key = os.getenv('OPENAI_API_KEY')
 
 def detect_language(text: str):
     translator = Translator()
     detected_language = translator.detect(text)
     return detected_language.lang
 
-def translate(text: str, input_language: str, target_language: str) -> str:
+def translate(text: str, input_language: str, target_language: str, api_key: str) -> str:
+    # Add the following two lines
+    import openai
+    openai.api_key = api_key
+    
     if input_language not in LANGUAGES.keys():
         input_language = detect_language(text)
 
@@ -29,6 +33,7 @@ def translate(text: str, input_language: str, target_language: str) -> str:
     else:
         return "Translation failed"
 
+
 def save_conversation(conversation_history):
     filename = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S") + ".txt"
     with open(filename, "w") as f:
@@ -38,7 +43,8 @@ def save_conversation(conversation_history):
             f.write("\n")
 
 
-def generate_summary(text: str, max_tokens: int = 300) -> str:
+def generate_summary(text: str, max_tokens: int = 300, api_key=None) -> str:
+    openai.api_key = api_key
     prompt = f"Summarize the following conversation into bullet points, and make each bullet points in one line: {text} Summary:"
     message_log = [{"role": "user","content": prompt}]
     response = openai.ChatCompletion.create(

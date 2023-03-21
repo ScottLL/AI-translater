@@ -57,8 +57,14 @@
               <button id="save-conversation-btn">Save Conversation</button>
               
             </div>
+
           </div>
+
+
           <div class="history-box">
+            <label for="apikey">OpenAI API Key:</label>
+            <input type="password" id="apikey" name="apikey" required>
+
             <div id="summary-history">
                 <h2>Summary History</h2>
                 <ul id="summary-list">
@@ -70,6 +76,9 @@
         </div>
       </main>
     </div>
+
+
+
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>

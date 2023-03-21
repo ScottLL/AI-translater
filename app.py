@@ -20,7 +20,9 @@ def translate():
     text = data['text']
     input_language = data['input_language']
     target_language = data['target_language']
-    translated_text = main.translate(text, input_language, target_language)
+    api_key = data['api_key']  # Add this line
+ # Add this line
+    translated_text = main.translate(text, input_language, target_language, api_key)  # Pass the API key here
     conversation_history.append((text, translated_text))
     return jsonify({'translated_text': translated_text})
 
@@ -39,10 +41,12 @@ def save_conversation():
 
 @app.route('/summarize-conversation', methods=['POST'])
 def summarize_conversation():
-    conversation = json.loads(request.json['conversation'])
-    summary_original = main.generate_summary(conversation)
-    summary_translated = main.translate(summary_original, main.detect_language(summary_original), request.json['target_language'])
-    return jsonify({'summary_original': summary_original, 'summary_translated': summary_translated})
+    api_key = request.json['api_key']
+    summary_original = main.generate_summary('\n'.join([conv[0] for conv in json.loads(request.json['conversation'])]), api_key=api_key)
+
+    summary_translated = main.translate(summary_original, main.detect_language(summary_original), request.json['target_language'], api_key)
+    return jsonify({'summary': {'original': summary_original, 'translated': summary_translated}})
+
 
 
 if __name__ == '__main__':
