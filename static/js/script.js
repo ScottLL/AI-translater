@@ -1,6 +1,76 @@
-var recognition = new webkitSpeechRecognition();
+var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
+var recognition = new SpeechRecognition();
+
 recognition.continuous = true;
 recognition.interimResults = true;
+
+function initializeAudioProcessing(stream) {
+  if (typeof AudioContext !== 'undefined') {
+    var audioContext = new AudioContext();
+    var analyser = audioContext.createAnalyser();
+    var microphone = audioContext.createMediaStreamSource(stream);
+    var processor = audioContext.createScriptProcessor(1024, 1, 1);
+
+    analyser.smoothingTimeConstant = 0.8;
+    analyser.fftSize = 1024;
+
+    microphone.connect(analyser);
+    analyser.connect(processor);
+    processor.connect(audioContext.destination);
+    processor.onaudioprocess = function () {
+      var array = new Uint8Array(analyser.frequencyBinCount);
+      analyser.getByteFrequencyData(array);
+      var values = 0;
+      var length = array.length;
+      for (var i = 0; i < length; i++) {
+        values += array[i];
+      }
+
+      var average = values / length;
+      if (average > 60) {
+        recognition.stop();
+        recognition.start();
+      }
+    };
+  }
+}
+
+
+
+// // Add the audio processing code here
+// navigator.mediaDevices.getUserMedia({ audio: true }).then(function (stream) {
+//   if (typeof AudioContext !== 'undefined') {
+//     var audioContext = new AudioContext();
+//     var analyser = audioContext.createAnalyser();
+//     var microphone = audioContext.createMediaStreamSource(stream);
+//     var processor = audioContext.createScriptProcessor(1024, 1, 1);
+
+//     analyser.smoothingTimeConstant = 0.8;
+//     analyser.fftSize = 1024;
+
+//     microphone.connect(analyser);
+//     analyser.connect(processor);
+//     processor.connect(audioContext.destination);
+//     processor.onaudioprocess = function () {
+//       var array = new Uint8Array(analyser.frequencyBinCount);
+//       analyser.getByteFrequencyData(array);
+//       var values = 0;
+//       var length = array.length;
+//       for (var i = 0; i < length; i++) {
+//         values += array[i];
+//       }
+
+//       var average = values / length;
+//       if (average > 60) {
+//         recognition.stop();
+//         recognition.start();
+//       }
+//     };
+//   }
+// }).catch(function (err) {
+//   console.error('Error getting audio stream:', err);
+// });
+
 function updateRecognitionLanguage() {
   recognition.lang = document.getElementById("input-language-select").value;
 }
@@ -65,14 +135,38 @@ recognition.onresult = function (event) {
   }
 };
 
-function startRecognition() {
+// function startRecognition() {
+//   if (!recognizing) {
+//     recognition.start();
+//     recognizing = true;
+//     document.getElementById("start-recognition-btn").disabled = true;
+//     document.getElementById("stop-recognition-btn").disabled = false;
+//   }
+// }
+async function startRecognition() {
   if (!recognizing) {
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      console.error('navigator.mediaDevices or getUserMedia() not supported');
+      return;
+    }
+
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      initializeAudioProcessing(stream);
+    } catch (err) {
+      console.error('Error getting audio stream:', err);
+      return;
+    }
     recognition.start();
     recognizing = true;
     document.getElementById("start-recognition-btn").disabled = true;
     document.getElementById("stop-recognition-btn").disabled = false;
   }
 }
+
+
+
+
 
 function stopRecognition() {
   if (recognizing) {
@@ -181,7 +275,7 @@ document
   .getElementById("summarize-conversation-btn")
   .addEventListener("click", summarizeConversation);
 document
-  .getElementById("language-select")
+  .getElementById("input-language-select")
   .addEventListener("change", function () {
     var originalText = document.getElementById("original-text").innerHTML;
     if (originalText) {

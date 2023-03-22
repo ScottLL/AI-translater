@@ -1,10 +1,50 @@
 from googletrans import Translator, LANGUAGES
 import datetime
 import openai
-# import os
 from dotenv import load_dotenv
 
 # load_dotenv()
+import speech_recognition as sr
+
+# Add the following imports
+import io
+import os
+from google.cloud import speech_v1p1beta1 as speech
+from google.oauth2 import service_account
+
+
+# Load dotenv
+load_dotenv()
+
+# Function to transcribe audio using Google Speech-to-Text API
+def transcribe_audio(file_path: str, language: str, api_key: str) -> str:
+    # Set Google Cloud credentials and API key
+    credentials = service_account.Credentials.from_service_account_file(api_key)
+
+    client = speech.SpeechClient(credentials=credentials)
+
+    with io.open(file_path, "rb") as audio_file:
+        content = audio_file.read()
+
+    audio = speech.RecognitionAudio(content=content)
+    config = speech.RecognitionConfig(
+        encoding=speech.RecognitionConfig.AudioEncoding.LINEAR16,
+        sample_rate_hertz=16000,
+        language_code=language,
+        enable_automatic_punctuation=True,
+        model="default",
+        use_enhanced=True,
+    )
+
+    response = client.recognize(config=config, audio=audio)
+
+    transcription = ""
+    for result in response.results:
+        transcription += result.alternatives[0].transcript
+
+    return transcription
+
+
 
 
 # openai.api_key = os.getenv('OPENAI_API_KEY')
