@@ -1,10 +1,12 @@
 install:
 	pip install --upgrade pip &&\
 		pip install -r requirements.txt &&\
-			brew install portaudio &&\
-				pip install pyaudio &&\
-					brew install espeak &&\
-						brew install flac 
+			apt-get update && \
+				apt-get install -y portaudio19-dev && \
+					pip install pyaudio &&\
+						apt-get install -y espeak && \
+							apt-get install -y flac
+
 
 
 
