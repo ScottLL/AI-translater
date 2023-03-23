@@ -3,24 +3,25 @@
 result: https://ai-translate-summary.azurewebsites.net/
 (get the OpenAI API key from https://openai.com/)
 
+## Translate
 AI-translater is a Python application that leverages machine learning techniques to translate text from one language to another. The application is built using the Google Cloud Translation API and the pre-trained TensorFlow Transformer model. It supports multiple languages and can handle both text and file input.
 
-# Summary
+## Summary
 In addition to translation, AI-translater also includes a summary feature that leverages OpenAI's GPT-3 API to generate a summary of the translated text. The summary feature uses natural language processing techniques to identify the most important information in the text and condense it into a shorter, more digestible format.
 
-# Installation
+## Installation
 To install AI-translater, you need to have Python 3.x and pip installed on your system. You can install the necessary packages by running the following command in your terminal:
 
 > pip install -r requirements.txt
 
-# Usage
+## Usage
 To use AI-translater, simply run the app.py file and follow the instructions on the command line. The application will prompt you to enter the source and target languages, as well as the input text or file. Once you provide the necessary information, the application will translate the text and display the output on the command line.
 
 Here is an example of how to use AI-translater:
 
 > python app.py
 
-# Deployment on Azure
+## Deployment on Azure
 AI-translater can be easily deployed on Microsoft Azure, a cloud computing platform that allows you to build, deploy, and manage applications and services. Deploying AI-translater on Azure provides a scalable, secure, and reliable solution for translating and summarizing text.
 
 To deploy AI-translater on Azure, follow these steps:
@@ -53,5 +54,5 @@ For more detailed instructions on deploying Python applications on Azure, please
 Please note that deploying AI-translater on Azure may incur additional costs, depending on the size and usage of the web app service. It is important to monitor the usage and scale the application accordingly to avoid unexpected costs.
 
 
-# Contributing
+## Contributing
 If you would like to contribute to AI-translater, feel free to submit a pull request or open an issue on the GitHub repository. Any feedback or suggestions are also welcome.
