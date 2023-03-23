@@ -12,7 +12,7 @@ RUN apt-get update && apt-get install -y portaudio19-dev
 RUN pip install --trusted-host pypi.python.org -r requirements.txt
 
 # Make port 80 available to the world outside this container
-EXPOSE 80
+EXPOSE 5001
 
 # Define environment variable
 ENV NAME World

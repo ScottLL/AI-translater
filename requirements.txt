@@ -12,7 +12,7 @@ uvicorn==0.18.3
 SpeechRecognition
 pyttsx3
 langdetect
-googletrans
+googletrans==4.0.0-rc1
 openai
 pyaudio
 flask
